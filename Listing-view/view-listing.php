@@ -24,10 +24,10 @@
                 max: 500,
                 values: [ 75, 300 ],
                 slide: function( event, ui ) {
-                    $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+                    $( "#selectAmount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
                  }
          });
-         $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+         $( "#selectAmount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
         } );
     </script>
     <style>
@@ -76,8 +76,8 @@
             margin-right: 10px;
             text-decoration: none;
         }
-        form{
-            border: 1px solid grey;
+        form.filter-box{
+            border: 1px solid black;
             padding: 5px 10px;
             font-size: x-large;
         }
@@ -118,6 +118,7 @@
         .card{
             margin-bottom: 10px;
         }
+        
     </style>
     <title>View Listings</title>
 </head>
@@ -132,7 +133,7 @@
                     </div>
                     <div class="hd-search-bar">
                         <input type="text" placeholder="Search..">
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                        <button type="submit"><a href="view-listing.php"><i class="fa fa-search"></a></i></button>
                     </div>
                 </div>
                 <div class="hd-top-nav">
@@ -150,37 +151,29 @@
         <row>
             <div class="content">
                 <div class="room-type">
-                    <a href="#" >All &emsp;|</a>
-                    <a href="#" >HDB &emsp;|</a>
-                    <a href="#" >Condo &emsp;|</a>
-                    <a href="#" >Shop &emsp;|</a>
-                    <a href="#" >Etc</a>
+                    <a href="view-listing.php" >All &emsp;|</a>
+                    <a href="#" onclick="showHDB()" >HDB &emsp;|</a>                    
+                    <a href="#" onclick="showCondo()">Condo &emsp;|</a>
+                    <a href="#" onclick="showShop()">Shop &emsp;|</a>
+                    <a href="#" onclick="showEtc()">Etc</a>
                 </div>
                 <div class="filter-room-type my-4">
-                    <form>
+                    <form class="filter-box">
                         <div class="form-row">
                           <div class="form-group col-md-6">
-                            <label for="search-by-mrt">Search By MRT :</label>
-                            <select class="select-by-mrt" id="selectByMrt">
-                                <option selected>All..</option>
+                            <label for="search-by-mrt">Search By Region :</label>
+                            <select class="select-by-mrt" id="selectByRegion">
+                                <option selected>All</option>
                                 <option>East</option>
                                 <option>West</option>
                                 <option>Central</option>
                                 <option>North</option>
                                 <option>South</option>
                             </select>   
-                            <select class="choose-mrt-station" id="chooseMrtStation">
-                                <option selected>Bedok</option>
-                                <option>Changi</option>
-                                <option>Orchard</option>
-                                <option>Bukit Panjang</option>
-                                <option>Serangoon</option>
-                                <option>Sentosa</option>
-                            </select>  
                           </div>
                           <div class="form-group col-md-6">
                             <label for="inputPassword4">Residential :</label>
-                            <select class="choose-room-type" id="chooseRoomType">
+                            <select class="choose-room-type" id="selectRoomType">
                                 <option selected>All</option>
                                 <option>Condo</option>
                                 <option>HDB</option>
@@ -193,21 +186,21 @@
                             <div class="form-group">
                                 <div class="price-box">
                                         <label for="amount">Any Price: </label>
-                                        <input type="text" id="amount" readonly style="border:0; color:#2c5258; font-weight:bold;"> 
+                                        <input type="text" id="selectAmount" readonly style="border:0; color:#2c5258; font-weight:bold;"> 
                                     <div id="slider-range"></div>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputCity">Capacity: </label>
-                                    <select class="capacity">
-                                        <option selected value="1">One - Two</option>
-                                        <option value="2">Three - Five</option>
-                                        <option value="3">No limit</option>
+                                    <select class="capacity" id="selectCapacity">
+                                        <option selected value="1">Single</option>
+                                        <option value="2">Group - less than three</option>
+                                        <option value="3">Group - more than three</option>
                                     </select>
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary my-2">Search</button>
+                            <button type="button" class="btn btn-primary my-2" id="search-btn" onclick="showSearchResult()">Search</button>
                         </div>
                     </form>
                 </div>
@@ -221,27 +214,97 @@
     ?>
     <div class="container content-images">
         <div class="content-wrapper">
-            <div class="row">
+            <div class="row" id="display-result">
                 <?php foreach($listings as $listing): ?>
                 <div class="col-sm-3">
                     <div class="card border border-white" style="width: 18rem;">
                         <img class="card-img-top" src="<?php echo $listing->getUrl(); ?>" alt="Card image cap">
                         <div class="card-body">
+                            
                           <h5 class="card-title"><?php echo $listing->getName(); ?></h5>
                           <h6 class="card-title">Full Day S$<?php echo $listing->getPrice(); ?></h6>
                           <p class="card-text">[<?php echo $listing->getAddress();?>] [<?php echo $listing->getSize();?>sqft] [<?php echo $listing->getType(); ?>]</p>
-                          <a href="#" class="btn btn-primary">Explore more</a>
+                          <form method="post" action="view-details.php" class="justify-content-center">
+                          <input type="hidden" id="listingId" name="listingId" value=<?php echo $listing->getID();?>>
+                          <button type="submit" class="btn btn-primary">Explore more</button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
+               
             </div>
         </div>
         
         
         
     </div>
+    <script>
+        var result = document.getElementById("display-result");
+        var region = document.getElementById("selectByRegion");
+        var roomType = document.getElementById("selectRoomType");
+        var capacity = document.getElementById("selectCapacity");
+        
+        
+        function showSearchResult(){
+            var minPrice = $('#slider-range').slider("values")[0];
+            var maxPrice = $('#slider-range').slider("values")[1];  
+            console.log(minPrice, maxPrice);
+            //result.innerHTML = region.value+" "+roomType.value+" "+minPrice+" "+maxPrice+" "+capacity.value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                        result.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","./server/helper/getResult.php?region="+region.value+"&roomType="+roomType.value+"&minPrice="+minPrice+"&maxPrice="+maxPrice+"&capacity="+capacity.value,true);
+            xmlhttp.send();
+        }
 
+        function showHDB(){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                        result.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","./server/helper/getResult.php?region=All"+"&roomType=HDB"+"&minPrice=0"+"&maxPrice=99999"+"&capacity=1",true);
+            xmlhttp.send();
+        }
+
+        function showCondo(){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                        result.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","./server/helper/getResult.php?region=All"+"&roomType=Condo"+"&minPrice=0"+"&maxPrice=99999"+"&capacity=1",true);
+            xmlhttp.send();
+        }
+
+        function showShop(){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                        result.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","./server/helper/getResult.php?region=All"+"&roomType=Shop"+"&minPrice=0"+"&maxPrice=99999"+"&capacity=1",true);
+            xmlhttp.send();
+        }
+
+        function showEtc(){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                        result.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","./server/helper/getResult.php?region=All"+"&roomType=Etc"+"&minPrice=0"+"&maxPrice=99999"+"&capacity=1",true);
+            xmlhttp.send();
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" 
     crossorigin="anonymous"></script>
