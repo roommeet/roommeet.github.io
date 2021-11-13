@@ -12,6 +12,11 @@ html body {
     background-color: gainsboro;
 }
 
+.content{
+    background-color: rgba(102, 101, 101, 0.5);
+    z-index: 2;
+}
+
 .imagesection {
     background-image: url("./img/mainpage.jpg");
     background-size: contain;
