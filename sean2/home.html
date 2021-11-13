@@ -105,17 +105,39 @@
 
             <div class="text" id="text">
                 
-                <form action="" method="get">
+                <form action="" method="post">
                     <div class="product-search">
                         <div class="search-element">
-                            <label class="search-label">What are you looking for?</label>
-                            <input class="search-input" type="text" autocomplete="on" placeholder="Product Name" name="query">
+                            <label class="search-label">What type of room are you looking for?</label>
+                             <select name = "type" class="search-input form-select">
+                                <option value = "All">All</option>
+                                <option value = "Condo">Condo</option>
+                                <option value = "HDB">HDB</option>
+                                <option value = "Office">Office</option>
+                                <option value = "Others">Others</option>
+                            </select>
                         </div>
                         <div class="search-element">
-                            <label class="search-label">Where are you looking?</label>
-                            <input class="search-input" type="text" placeholder="City, State" class="" autocomplete="on" name="location">
+                            <label class="search-label">Where are you looking at?</label>
+                            <select name = "type" class="search-input form-select">
+                                <option value = "All">All</option>
+                                <option value = "North">North</option>
+                                <option value = "South">South</option>
+                                <option value = "East">East</option>
+                                <option value = "West">West</option>
+                                <option value = "Central">Central</option>
+                            </select>
+                            
                         </div>
-                        <a type="submit" class="search-button">Search</a>
+                        <div class="search-element">
+                            <label class="search-label">Capacity?</label>
+                            <select name = "type" class="search-input form-select">
+                                <option value = "1">Single</option>
+                                <option value = "2">Group - Less Than 3</option>
+                                <option value = "3">Group - More Than 3</option>
+                            </select>
+                        </div>
+                        <input type="submit" class="search-button" value = "Search">
                     </div>
                     </form>
             </div>
@@ -123,8 +145,6 @@
         </div>
         
         
-
-
 
 
     

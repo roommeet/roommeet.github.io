@@ -36,6 +36,7 @@ body {
     font-size: 1.2em;
     line-height: 1.2em;
     margin-top: 5px;
+    
     }
 
 .search-input:focus {
@@ -45,7 +46,7 @@ body {
 .search-button {
     display: inline-block;
     flex-grow: 1;
-    height: 80px;
+    height: 100px;
     line-height: 80px;
     padding: 0 2em;
     text-align: center;
