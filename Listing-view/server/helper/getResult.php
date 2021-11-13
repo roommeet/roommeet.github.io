@@ -1,18 +1,35 @@
 <?php
-require_once '../model/ListingDAO.php';
-require_once '../model/Listing.php';
+$upOne = dirname(__DIR__, 1);
+ require_once $upOne.'/model/ListingDAO.php';
+ require_once $upOne.'/model/Listing.php';
 
-$region = $_GET['region'];
-$roomType = $_GET['roomType'];
-$minPrice = intval($_GET['minPrice']);
-$maxPrice = intval($_GET['maxPrice']);
-$capacity = $_GET['capacity'];
+$region = "";
+$roomType = "";
+$minPrice = "";
+$maxPrice = "";
+$capacity = "";
+if(isset($_GET['region'])){
+    $region = $_GET['region'];
+}
+if(isset($_GET['roomType'])){
+    $roomType = $_GET['roomType'];
+}
+if(isset($_GET['minPrice'])){
+    $minPrice = intval($_GET['minPrice']);
+}
+if(isset($_GET['maxPrice'])){
+    $maxPrice = intval($_GET['maxPrice']);
+}
+if(isset($_GET['capacity'])){
+    $capacity = $_GET['capacity'];
+}
+
 $listingDAO = new ListingDAO();
 
-$arrayA = filterByPrice();
-$arrayB = filterByRoomType();
-$arrayC = filterByRegion();
-$arrayD = filterByCapacity();
+$arrayA = filterByPrice($minPrice, $maxPrice);
+$arrayB = filterByRoomType($roomType);
+$arrayC = filterByRegion($region);
+$arrayD = filterByCapacity($capacity);
 $comb1 = compareListingArr($arrayA, $arrayB);
 $comb2 = compareListingArr($arrayC, $arrayD);
 $final_output = compareListingArr($comb1, $comb2);
@@ -40,10 +57,8 @@ foreach($final_output as $listing){
                 
 
 
-function filterByPrice(){
+function filterByPrice($minPrice, $maxPrice){
     global $listingDAO;
-    $minPrice = intval($_GET['minPrice']);
-    $maxPrice = intval($_GET['maxPrice']);
     $listings = $listingDAO->getAll();
     $filter_result = array();
     foreach($listings as $listing){
@@ -54,9 +69,8 @@ function filterByPrice(){
     return $filter_result;
 }
 
-function filterByRoomType(){
+function filterByRoomType($roomType){
     global $listingDAO;
-    $roomType = $_GET['roomType'];
     $listings = $listingDAO->getAll();
     $filter_result = array();
     if($roomType=="All"){
@@ -71,9 +85,8 @@ function filterByRoomType(){
     }
 }
 
-function filterByRegion(){
+function filterByRegion($region){
     global $listingDAO;
-    $region = $_GET['region'];
     $listings = $listingDAO->getAll();
     $filter_result = array();
     if($region=="All"){
@@ -88,9 +101,8 @@ function filterByRegion(){
     }
 }
 
-function filterByCapacity(){
+function filterByCapacity($capacity){
     global $listingDAO;
-    $capacity = $_GET['capacity'];
     $listings = $listingDAO->getAll();
     $filter_result = array();
     

@@ -30,6 +30,39 @@ create table review
     /*CONSTRAINT fk_userId1 FOREIGN KEY(userId) REFERENCES listings(listingId),*/
 );
 
+create table user
+(
+	userId INT auto_increment primary key,
+    email varchar(50) NOT NULL,
+    name varchar(50) NOT NULL,
+	password varchar(50) NOT NULL
+
+    /*CONSTRAINT fk_lisitingId1 FOREIGN KEY(listingId) REFERENCES listing(listingId)
+    CONSTRAINT fk_userId1 FOREIGN KEY(userId) REFERENCES listings(listingId),*/
+);
+
+create table booking
+(
+	bookingId INT auto_increment primary key,
+    userId INT NOT NULL,
+    listingId INT NOT NULL,
+	bookingDate date NOT NULL,
+    bookingDetails varchar(50) NOT NULL,
+
+    CONSTRAINT fk_lisitingId2 FOREIGN KEY(listingId) REFERENCES listing(listingId),
+    CONSTRAINT fk_userId1 FOREIGN KEY(userId) REFERENCES user(userId)
+	/*CONSTRAINT fk_bookingDetails1 FOREIGN KEY(bookingDetails) REFERENCES user(userId)*/
+);
+
+create table chat  (
+    userId int not null,
+    chat_string varchar(300) not null,
+    time datetime not null,
+    receiverId int,
+    CONSTRAINT chat_PK PRIMARY KEY (userId, time),
+    CONSTRAINT fk_userId2 FOREIGN KEY(userId) REFERENCES user(userId),
+    CONSTRAINT fk_userId3 FOREIGN KEY(receiverId) REFERENCES user(userId)
+);
 
 insert into listing (name, price, imageUrl, address, type, size, bedRooms, bathRooms, booked, capacity, region) values 
     ('The Rochester',100,'https://sg1-cdn.pgimgs.com/listing/23118957/UPHO.126886062.V800/The-Rochester-Buona-Vista-West-Coast-Clementi-New-Town-Singapore.jpg','33 Rochester Dr, Singapore 138638','Condo',861, 1, 1, "No", 1, "North");
@@ -82,5 +115,18 @@ insert into review (listingId, userId, reviewScore, dateAttained) values
 insert into review (listingId, userId, reviewScore, dateAttained) values 
     (12, 1, 4, "2021-11-12"),(12, 1, 5, "2021-11-12"), (12, 1, 3, "2021-11-12"),(12, 1, 5, "2021-11-12");
 
-    
+insert into user (email, name, password) values ("apple2020", "appleTan", "apple123"), ("john2021", "JohnSmith", "john123");
 
+insert into booking (userId, listingId, bookingDate, bookingDetails) values (1, 2, "2021-11-12", "Fully"), (1, 6, "2021-11-13", "halfAm"), (2, 10, "2021-11-12", "halfPm"), (2, 8, "2021-11-12", "Fully");
+
+insert into chat (userId, chat_string, time, receiverId) values 
+    (1, "can I ask whether the price is negiotiable?", '2021-10-05 15:28:33', 2);
+insert into chat (userId, chat_string, time, receiverId) values 
+    (2, "Yes, of course", '2021-10-05 15:30:33', 1);
+insert into chat (userId, chat_string, time, receiverId) values 
+    (1, "can it be reduced to $50 from $40?", '2021-10-05 15:32:54', 2);
+insert into chat (userId, chat_string, time, receiverId) values 
+    (2, "Hi, is eating in the room ok with you?", '2021-10-05 15:11:54', 1);
+insert into chat (userId, chat_string, time, receiverId) values 
+    (1, "Hi, is eating in the room ok with you?", '2021-10-05 15:21:54', 2);
+    
