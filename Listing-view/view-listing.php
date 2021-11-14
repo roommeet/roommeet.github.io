@@ -1,4 +1,12 @@
 <?php
+if(isset($_POST['type'])&&isset($_POST['region'])&&isset($_POST['capacity'])){
+    $region = $_POST['region'];
+    $type = $_POST['type'];
+    $capacity = $_POST['capacity'];
+    $newURL = "./view-result.php?region=".$region."&roomType=".$type."&minPrice=0&maxPrice=9999&capacity=".$capacity;
+    
+    header('Location: '.$newURL);
+}
     require_once('common.php')
 ?>
 <!DOCTYPE html>
@@ -35,6 +43,12 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size:14px;
             color: black;
+            /* background-color: transparent; */
+            background: url("img/bg.jpg") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
         .header{
             display: block;
@@ -77,9 +91,11 @@
             text-decoration: none;
         }
         form.filter-box{
-            border: 1px solid black;
+            /* border: 1px solid black; */
             padding: 5px 10px;
             font-size: x-large;
+            /* background-color: rgb(245,245,245,0.8); */
+            
         }
         .form-group{
             margin-top: 10px;
@@ -104,6 +120,9 @@
             margin-top: 10px;
             margin-bottom: 15px;
         }
+        .content{
+            z-index: 10;
+        }
         .content-wrapper{
             margin-bottom: 30px;
         }
@@ -118,44 +137,82 @@
         .card{
             margin-bottom: 10px;
         }
-        
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        /* .mainbg {
+            background: url("img/bg3.jpg") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        } */
+        .overlay {
+            content: "";
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            background-color: rgba(0,0,0,0.1);
+            z-index:0;
+        } 
+        #selectAmount{
+            background: rgb(255,255,255,0);
+        }
     </style>
+    <link rel="stylesheet" href="css/main.css">
     <title>View Listings</title>
 </head>
-<body> 
-    <div class="container mx-auto">
+<body>
+    <!--Link with home.html--> 
+    
+    <!-- <div class="mainbg"> -->
+    
+    <div class="homecontainer-fluid mb-2">
         <row>
             <div class="header">
                 <div class="hd-top">
-                    <div class="logo my-3"><a href="https://placeholder.com"><img src="https://via.placeholder.com/50"></a></div>
-                    <div class="hd-search my-4">
-                        <h2>RoomMeet</h2>
-                    </div>
-                    <div class="hd-search-bar">
-                        <input type="text" placeholder="Search..">
-                        <button type="submit"><a href="view-listing.php"><i class="fa fa-search"></a></i></button>
-                    </div>
-                </div>
-                <div class="hd-top-nav">
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" class="float-right" >login</a>
-                    <a href="#" class="float-right">Sign Up</a>
-                    <hr>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a href="#home" class="navbar-brand" id="logoname">ROOMMEET.</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        
+                            <div class="collapse navbar-collapse" id="navmenu">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a href="#login" class="nav-link">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#register" class="nav-link">Register</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#browse" class="nav-link">Browse</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#listings" class="nav-link">Listings</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
             </div>
         </row>
+    </div>
+
+    <div class="container mx-auto" style="background-color: rgb(255,255,255,0.7);">
         <row>
             <div class="content">
-                <div class="room-type">
-                    <a href="view-listing.php" >All &emsp;|</a>
-                    <a href="#" onclick="showHDB()" >HDB &emsp;|</a>                    
-                    <a href="#" onclick="showCondo()">Condo &emsp;|</a>
-                    <a href="#" onclick="showShop()">Shop &emsp;|</a>
-                    <a href="#" onclick="showEtc()">Etc</a>
+                <div class="room-type py-2">
+                    <a href="view-listing.php" ><strong>All </strong>&emsp;|</a>
+                    <a href="#" onclick="showHDB()" ><strong>HDB </strong>&emsp;|</a>                    
+                    <a href="#" onclick="showCondo()"><strong>Condo </strong>&emsp;|</a>
+                    <a href="#" onclick="showShop()"><strong>Shop </strong> &emsp;|</a>
+                    <a href="#" onclick="showEtc()"><strong>Etc</strong></a>
                 </div>
                 <div class="filter-room-type my-4">
                     <form class="filter-box">
@@ -239,7 +296,10 @@
         
         
     </div>
-    <script>
+    <!-- </div> -->
+    
+    <script type='text/javascript'>
+        
         var result = document.getElementById("display-result");
         var region = document.getElementById("selectByRegion");
         var roomType = document.getElementById("selectRoomType");

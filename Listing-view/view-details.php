@@ -1,6 +1,10 @@
 <?php
     require_once('common.php');
     require_once('server/helper/reviewFunctions.php');
+
+    session_start();
+    $_SESSION["listingId"]="";
+    $_SESSION["userId"]="";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +27,11 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size:14px;
             color: black;
+            background: url("img/bg.jpg") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
         .header{
             display: block;
@@ -74,10 +83,10 @@
             letter-spacing: 2px;
         }
         label {
-            width:120px;
+            width:100px;
             clear:left;
-            text-align:right;
-            padding-right:10px;
+            text-align:left;
+            /* padding-right:10px; */
         }
 
         input, label {
@@ -136,6 +145,14 @@
         #bar-2 {width: 4%; height: 18px; background-color: #ff9800;}
         #bar-1 {width: 15%; height: 18px; background-color: #f44336;}
 
+        .main-content{
+            box-shadow: 3px 3px 5px 1px grey;
+        }
+
+        .card-body{
+            box-shadow: 3px 3px 5px 1px grey;
+        }
+
         /* Responsive layout - make the columns stack on top of each other instead of next to each other */
         @media (max-width: 400px) {
         .side, .middle {
@@ -147,46 +164,55 @@
         }
         }
     </style>
+    <link rel="stylesheet" href="css/main.css">
     <title>View Details</title>
 </head>
 <body> 
-    <div class="container mx-auto">
-        <div class="row">
+<div class="homecontainer-fluid mb-2">
+        <row>
             <div class="header">
                 <div class="hd-top">
-                    <div class="logo my-3"><a href="https://placeholder.com"><img src="https://via.placeholder.com/50"></a></div>
-                    <div class="hd-search my-4">
-                        <h2>RoomMeet</h2>
-                    </div>
-                    <div class="hd-search-bar">
-                        <input type="text" placeholder="Search..">
-                        <button type="submit"><a href="view-listing.php"><i class="fa fa-search"></a></i></button>
-                    </div>
-                </div>
-                <div class="hd-top-nav">
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" >nav</a>
-                    <a href="#" class="float-right" >login</a>
-                    <a href="#" class="float-right">Sign Up</a>
-                    <hr>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a href="#home" class="navbar-brand" id="logoname">ROOMMEET.</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        
+                            <div class="collapse navbar-collapse" id="navmenu">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a href="#login" class="nav-link">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#register" class="nav-link">Register</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#browse" class="nav-link">Browse</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#listings" class="nav-link">Listings</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
             </div>
-        </div>
+        </row>
     </div>
 
     <?php
         $listingId = $_POST['listingId'];
+        $_SESSION["listingId"] =$listingId;
         $listingDAO = new ListingDAO();
         $listing_obj = $listingDAO->get($listingId);
     ?>
     
-    <div class="container ">
+    <div class="container main-content" style="background-color: rgb(255,255,255,0.7);">
         <div class="row justify-content-center">
             <div class="col-sm-6 my-3">
-                <h2 class="card-title"><?php echo $listing_obj->getName(); ?></h2>
+                <h2 class="card-title" style="letter-spacing: 5px;"><strong><?php echo $listing_obj->getName(); ?></strong></h2>
             </div>
         </div>    
         <div class="row ">
@@ -231,7 +257,7 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-4">
             <div class="col-sm-6 my-2">
                 <div class="card border border-white">
                     <div class="card-body">
@@ -247,7 +273,7 @@
                                 echo '<h6 class="card-title float-right text-info">Avaialable before 3pm Today</h6>';
                             }
                         ?>
-                        <h5 class="card-title">S$<?php echo $listing_obj->getPrice(); ?> /day</h5>
+                        <h5 class="card-title"><strong>S$<?php echo $listing_obj->getPrice(); ?> / day</strong></h5>
                         <h5 class="card-text"><?php echo $listing_obj->getBedRooms(); ?> Bedrooms <?php echo $listing_obj->getBathRooms(); ?> Bathrooms<?php echo $listing_obj->getSize(); ?> sqft</h5>
                         <h5 class="card-title"><?php echo $listing_obj->getAddress(); ?></h5>
                         <br>
@@ -320,7 +346,7 @@
                         </div>
 
                         <div class="btn-wrapper text-center my-3">
-                            <a href="#" class="btn btn-primary my-3" onclick=booking()>Make Booking Now</a>
+                            <a href="#" class="btn btn-primary my-3" onclick="booking()">Make Booking Now</a>
                         </div>
                     </div>
                 </div>
@@ -328,27 +354,49 @@
         </div>
     </div>
 
-    <div id="hidden-form" class="container bg-light">
-        <div class="row d-flex align-items-center">
-            <div class="col-sm-4">
-                <h3>Room Details</h3>
+    <form action="payment.php" method="post">
+    <div id="hidden-form" class="container bg-light main-content " style="opacity: 0.8">
+        <div class="row justify-content-center m-4 p-3">
+        
+            <div class="col-sm-3">
+                <h3 class="mb-4"><strong>Booking Details</strong></h3>
                 <div class="booking-date m-2">
                     <label for="start">Select date:</label>
-                    <input type="date" id="start" name="booking-start" value="<?php echo date("Y-m-d")?>" min="2021-10-31" max="2021-12-31">
+                    <input type="date" id="booking-start" name="booking-start" value="<?php echo date("Y-m-d")?>" min="2021-10-31" max="2021-12-31" onchange="getDate()">
                 </div>
                 <br>
                 <div class="booking-option m-2">
                     <label for="start">Booking option:</label>
-                    <select id="cars">
+                    <select id="bookingOption" name="bookingOption" onchange="calculatePrice()">
                         <option selected value="full">Full day</option>
                         <option value="halfAm">8pm ~ 3pm</option>
                         <option value="halfPm">3pm ~ 10pm</option>
                     </select>
                 </div>
-                
+                <br>
+                <div id="hidden-booking-details" class="m-2">
+                    <?php
+                            if($availability=="No"){
+                                echo "<p class='text-success'><strong>Available for all day!</strong></p>";
+                            }else if($availability=="Fully"){
+                                echo "<p class='text-warning'><strong>Not Available for the given date!</strong></p>";
+                            }else if($availability=="halfAm"){
+                                echo "<p class='text-success'><strong>Available from 3pm!</strong></p>";
+                            }else if($availability=="halfPm"){
+                                echo "<p class='text-success'><strong>Available before 3pm!</strong></p>";
+                            }
+                        ?>
+                </div>
+                <div class="booking-option m-2">
+                    
+                    <br>
+                    <hr>
+                    <h4 class="float-right">Estimated Price: <strong id="checkout" class="text-muted">$<?php echo $listing_obj->getPrice();?></strong></h4>
+                    <input type="hidden" id="pass_price" name="pass_price" value="<?php echo $listing_obj->getPrice();?>">
+                </div>
             </div>
-            <div class="col-sm-4">
-                <h3>Contact Details</h3>
+            <div class="col-sm-3">
+                <h3><strong>Contact Details</strong></h3>
                 <div class="contact-first-name m-2">
                     <label for="start">First Name:</label>
                     <input type="text" id="fname" name="fname"><br>
@@ -366,19 +414,12 @@
                     <input type="text" id="mobile" name="mobile"><br>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <h3>Payment Options</h3>
-                <input type="checkbox" id="visa" name="visa" value="visa" style="float:none;">
-                <label for="1"> VISA/Master</label><br>
-                <input type="checkbox" id="Paypal" name="Paypal" value="Paypal" style="float:none;">
-                <label for="2"> Paypal</label><br>
-                <input type="checkbox" id="QR" name="QR" value="QR" style="float:none;">
-                <label for="3"> QR</label><br>
-            </div>
+
         </div>
         <div class="btn-wrapper text-center my-3">
-            <a href="#" class="btn btn-primary my-3" onclick=payment()>Make Payment</a>
+            <button type="submit" id="btn-payment" class="btn btn-primary my-3">Make Payment</button>
         </div>
+        </form>
     </div>
 
     <script>
@@ -387,9 +428,15 @@
         document.getElementById("bar-3").style.width = "<?php echo (intval(countEach(1)["3"])/getSize(1)*100); ?>%";
         document.getElementById("bar-4").style.width = "<?php echo (intval(countEach(1)["4"])/getSize(1)*100); ?>%";
         document.getElementById("bar-5").style.width = "<?php echo (intval(countEach(1)["5"])/getSize(1)*100); ?>%";
+        document.getElementById("hidden-form").style.display="none";         
+        
+        var bookingOption = document.getElementById("bookingOption");
+        var hidden_form = document.getElementById("hidden-booking-details");
 
-        document.getElementById("hidden-form").style.display="none";                    
-
+        var checkoutPrice = "<?php echo $listing_obj->getPrice()?>";   
+        var listingId = "<?php echo $listing_obj->getID()?>";  
+        var bookingStartDate = document.getElementById("booking-start");
+        console.log(bookingStartDate.value);
         function booking(){
             const form = document.getElementById("hidden-form");
             form.style.display="block";
@@ -397,6 +444,40 @@
         $('input[type="checkbox"]').on('change', function() {
             $('input[type="checkbox"]').not(this).prop('checked', false);
         });
+        document.getElementById("btn-payment").addEventListener("click", function(event){
+            if(hidden_form.innerText=="Not Available for the given date!"){
+                event.preventDefault();
+                alert("You cannot make a booking on a given date!");
+            }
+        });
+        function calculatePrice(){
+            var hidden_price = document.getElementById("pass_price");
+            const price = document.getElementById("checkout");
+            if(bookingOption.value=="halfAm"||bookingOption.value=="halfPm"){
+                price.innerHTML="$"+checkoutPrice/2;
+                hidden_price.value = checkoutPrice/2;
+            }else{
+                price.innerHTML="$"+checkoutPrice;
+                hidden_price.value = checkoutPrice;
+            }
+        }
+
+        function getDate(){
+            console.log(bookingStartDate.value);
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    hidden_form.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","./server/helper/getBookingInfo.php?date="+bookingStartDate.value+"&listingId="+listingId,true);
+            xmlhttp.send();  
+        }
+        
+        // function checkStatus(e){
+        //     e.preventDefault();
+        
+        // }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" 
