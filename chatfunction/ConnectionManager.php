@@ -5,7 +5,7 @@ class ConnectionManager {
     public function connect() {
         $servername = 'localhost';
         $username = 'root';
-        $password = 'root'; // -> MAMP server
+        $password = ''; // -> MAMP server
         //$password = ''; // -> WAMP server
         $dbname = 'roommeet';
         

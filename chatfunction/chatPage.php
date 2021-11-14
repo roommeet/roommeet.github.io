@@ -89,7 +89,10 @@
 
     <div class = "mainbg">
     <div class = "homecontainer text-center">
-        <h2>CHAT</h2>
+        
+        <div id = "chatHeader">
+            <h2>CHAT</h2>
+        </div>
     </div>
         <div class = "row">
         
@@ -150,13 +153,22 @@
 
         function showHistory(id){
             // console.log(id) 
+
             var chats = document.getElementsByClassName("chatting");
             var chatHistory = document.getElementById("history");
-            var message = document.createElement("h2");
+            // var message = document.createElement("h2");
             // message.className = "text-right";
-            var node = document.createTextNode(id);
-            message.appendChild(node);
-            chatHistory.appendChild(message);
+            // var node = document.createTextNode(id);
+            // message.appendChild(node);
+            // chatHistory.appendChild(message);
+            var header = document.getElementById("chatHeader");
+            var chatHeader = document.createElement("h2");
+            var headerText = "Chat - " + id
+            console.log(header)
+            var headerNode = document.createTextNode(headerText)
+            chatHeader.appendChild(headerNode);
+            header.appendChild(chatHeader);
+
             
             for(chat of chats){
                 // console.log(chat)
@@ -178,7 +190,7 @@
                         
                         if(message[1] === id){
                             chatMsg.className = "chat__message";
-                            var node = document.createTextNode(message[1] + ": " + message[0]);
+                            var node = document.createTextNode(message[0]);
                             chatMsg.appendChild(node);
                             wrapMsg.appendChild(chatMsg);
                             para.appendChild(wrapMsg);
@@ -186,7 +198,7 @@
                         }
                         else{
                             chatMsg.className = "chat__own_message";
-                            var node = document.createTextNode(message[1] + ": " + message[0]);
+                            var node = document.createTextNode(message[0]);
                             chatMsg.appendChild(node);
                             wrapMsg.appendChild(chatMsg);
                             para.className = "text-end"
@@ -261,6 +273,15 @@
                 children[0].remove(); 
             }    
 
+            var div3 = document.getElementById("chatHeader");
+            var children = div3.children;  
+            var len = children.length;
+        
+            for (let i=0; i<len; i++) {
+                
+                children[0].remove(); 
+            }    
+
         }
 
         function sendText(username, id){
@@ -278,7 +299,15 @@
             // split the two and concatenate Sender:Message
             para.className = "text-end";
             var node = document.createTextNode(text);
-            para.appendChild(node);
+            var wrapMsg = document.createElement("div");
+            wrapMsg.className = "chat__wrapper";
+            var chatMsg = document.createElement("div");
+            chatMsg.className = "chat__own_message";
+            chatMsg.appendChild(node);
+            wrapMsg.appendChild(chatMsg);
+            para.appendChild(wrapMsg);
+
+        
             chatHistory.appendChild(para);
             message = text;
             namesUser = [];
@@ -287,6 +316,7 @@
             namesUser.sort();
             users = namesUser[0] + namesUser[1];
             sender = username;
+            
             // console.log(users,message,sender)
             ajaxCall(users, message, sender);
             // console.log(id);
