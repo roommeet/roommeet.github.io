@@ -1,57 +1,49 @@
 <?php
 
 //require_once 'common.php';
-require_once 'Account.php';
-require_once 'AccountMgr.php';
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+
+require_once 'User.php';
+require_once 'UserDAO.php';
 require_once 'ConnectionManager.php';
 
-
-    $errors = [];
-
-
-    // $username = $_POST["email"];
-    // $password = $_POST["password"];
-    $username = "apple2020";
-    $password = "apple123";
-
-
-    $dao = new AccountDAO();
-    $user = $dao->get( $username );
-
-    if ($user)
-    {
-
-        $hashed_password = $user->getPassword();
-
-        //$status = password_verify( $password, $hashed_password); 
-
-        if ($hashed_password == $password)
-        { 
-            // $_SESSION["username"] = $username;
-            // header("Location: ../index.php");
-            // return;
-            echo "hi";
-        }
-        else
-        {
-
-            // $errors [] = "Invalid password.";
-            // $_SESSION['errors'] = $errors;
-            // $_SESSION["login_page"] = $username;
-            // header("Location: loginpage.php");
-            // return;
-            echo "no";
-
-        }
-
-    } else
-    {
-        // $errors [] = "Username does not exist in the database.";
-        // $_SESSION['errors'] = $errors;
-        // $_SESSION["login_page"] = $username;
-        // header("Location: loginpage.php");
-        // return;
-            echo "none";
+function doLogin($email, $pwd, $results) {    
+    $mgr = new UserDAO();
+    
+    $account = $mgr->get($email);
+    if ( $account != null && $account->getPassword() == $pwd){
+        $results["userid"] = $account->getUserid();
+        $results["status"] = true;
+        $results["name"] = $account->getName();
     }
+    return $results;
+}
 
-    ?>
+$results = [
+    "status" =>  false
+];
+
+
+// $obj = json_decode( file_get_contents("php://input") );
+// var_dump($obj);
+// $email = $obj->email;
+// $pwd = $obj->pwd;
+
+
+if ( isset($_POST['email']) && isset($_POST['pwd'])) {
+    $email = $_POST['email'];
+    $pwd = $_POST['pwd'];
+    
+    $results = doLogin($email, $pwd, $results);
+
+} else { // axios sends via raw data
+    $obj = json_decode( file_get_contents("php://input") );
+    $email = $obj->email;
+    $pwd = $obj->pwd;
+    $results = doLogin($email, $pwd, $results);
+}
+
+echo json_encode( $results, JSON_PRETTY_PRINT );
+
