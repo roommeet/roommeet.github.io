@@ -3,10 +3,14 @@
     require_once("server/model/BookingDAO.php");
     require_once("server/model/Listing.php");
     require_once("server/model/ListingDAO.php");
+    require_once("server/model/Review.php");
+    require_once("server/model/ReviewDAO.php");
     require_once("server/model/ConnectionManager2.php");
     $bookingDAO = new BookingDAO();
     $listingDAO = new ListingDAO();
+    $reviewDAO = new ReviewDAO();
     $bookings = $bookingDAO->getBookings(1);
+    // print_r($reviewDAO->addReview(1, 6, 1, "very dirty room"));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="stylesheets/profile.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -27,7 +32,39 @@
         
       </div>
     </div>
-
+    <div class="homecontainer-fluid mb-2">
+        <row>
+            <div class="header">
+                <div class="hd-top">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container">
+                            <a href="#home" class="navbar-brand" id="logoname">ROOMMEET.</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        
+                            <div class="collapse navbar-collapse" id="navmenu">
+                                <ul class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a href="#login" class="nav-link">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#register" class="nav-link">Register</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#browse" class="nav-link">Browse</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#listings" class="nav-link">Listings</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </row>
+    </div>
     <div class="wrapper mt-sm-5 ">
         <h4 class="pb-4 border-bottom">Account settings</h4>
         <div class="d-flex align-items-start py-3 border-bottom"> <img src="https://images.pexels.com/photos/1037995/pexels-photo-1037995.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" class="img" alt="">

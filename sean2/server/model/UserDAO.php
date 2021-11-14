@@ -1,7 +1,7 @@
 <?php
 
 require_once 'User.php';
-require_once 'ConnectionManager.php';
+require_once 'ConnectionManager2.php';
 
 class UserDAO {
 

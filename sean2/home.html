@@ -80,6 +80,10 @@
             document.getElementById("text").style.display = "block";
             document.getElementById("textcontainer").style.display = "block";
         }
+
+        function openListingPage() {
+            window.location.href = "../listing/view-listing.php";
+        }
     </script>
 
     
@@ -90,12 +94,50 @@
         
         <div id="window" class="window">
             <!-- LOGIN FORM -->
-            <my-login></my-login>
+            <my-login v-on:login="doLoginSuccess"></my-login>
             <!-- REGISTER FORM -->
             <my-register></my-register>
         </div>
         <!-- NAVBAR -->
-        <nav-bar></nav-bar>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a href="home.html" class="navbar-brand" id="logoname">ROOMMEET.</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                    
+                <div class="collapse navbar-collapse" id="navmenu">
+                    <ul class="navbar-nav ms-auto" v-if="user == null">
+                        <li class="nav-item">
+                            <a href="#login" onclick="openLoginForm()" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#register" class="nav-link" onclick="openRegisterForm()" >Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#browse" class="nav-link">Browse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#listings" class="nav-link">Listings</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto" v-else>
+                        <li class="nav-item" style="margin:auto; padding: auto;">
+                            <b>Welcome, {{user.username}}! </b>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#browse" class="nav-link">Browse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#listings" class="nav-link">Listings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" onclick="logoutMsg(); doLogout();" class="nav-link">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <!-- HOME PAGE W SEARCH BAR -->
         <div class="mainbg" id="mainbg">
             <div class="textcontainer" id="textcontainer">
@@ -105,7 +147,7 @@
 
             <div class="text" id="text">
                 
-                <form action="" method="post">
+                <form action="../listing/view-listing.php" method="post">
                     <div class="product-search">
                         <div class="search-element">
                             <label class="search-label">What type of room are you looking for?</label>
@@ -119,7 +161,7 @@
                         </div>
                         <div class="search-element">
                             <label class="search-label">Where are you looking at?</label>
-                            <select name = "type" class="search-input form-select">
+                            <select name = "region" class="search-input form-select">
                                 <option value = "All">All</option>
                                 <option value = "North">North</option>
                                 <option value = "South">South</option>
@@ -131,7 +173,7 @@
                         </div>
                         <div class="search-element">
                             <label class="search-label">Capacity?</label>
-                            <select name = "type" class="search-input form-select">
+                            <select name = "capacity" class="search-input form-select">
                                 <option value = "1">Single</option>
                                 <option value = "2">Group - Less Than 3</option>
                                 <option value = "3">Group - More Than 3</option>

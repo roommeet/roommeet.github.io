@@ -7,7 +7,7 @@ header('Access-Control-Allow-Methods: GET, POST');
 
 require_once 'User.php';
 require_once 'UserDAO.php';
-require_once 'ConnectionManager.php';
+require_once 'ConnectionManager2.php';
 
 function doRegister($email, $name, $pwd, $password, $results) {    
     $mgr = new UserDAO();
