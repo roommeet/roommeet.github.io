@@ -39,29 +39,24 @@
     <!-- Put the info into hidden field -->
     <?php
     include_once("common.php");
+    include_once("test.php");
     // Get data from database, put it into input-hidden
+
+    // if from search page then do if   isset($_POST[]) then whatever 
     $listingDAO = new ListingDAO;
     $listings = $listingDAO->getAll();
+    // var_dump($listings);
     foreach($listings as $listing){
       $name = $listing->getName();
       $price = $listing->getPrice();
       $address = $listing->getAddress();
       $type = $listing->getType();
       $size = $listing->getSize();
-      $region = "east";
-      echo "<input type = 'hidden' name = '$region' value = '$name,$price,$address,$type,$size'></input>";
+      $region = $listing->getRegion();
+      $latitude = $listing->getLatitude();
+      $longitude = $listing->getLongitude();
+      echo "<input type = 'hidden' name = '$region' value = '$name/$price/$address/$type/$size/$latitude/$longitude'>";
     }
-    // var_dump($listings);
-    // foreach($test as $place){
-    //   $region = $place[0];
-    //   $locationName = $place[1];
-    //   $lat = $place[2];
-    //   $lng = $place[3];
-    //   $placeName = $place[4];
-    //   // change into <input name ="west" etc so can get html collection>
-    //   echo "<input type = 'hidden' name = '$region' value = '$locationName,$lat,$lng,$placeName'></input>";
-    // }
-    var_dump("this will appear first")
     ?>
 
     <!-- do a vuejs binding of sorts -->
