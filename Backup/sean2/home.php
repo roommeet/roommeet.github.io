@@ -1,11 +1,11 @@
 <?php
-    session_start();
-    $_SESSION['userId']="";
-    $loginStatus = false;
-    if(isset($_GET['login'])){
-        $loginStatus = $_GET['login'];
-        $_SESSION['userId']="";
-    }
+    // session_start();
+    // $_SESSION['userId']="";
+    // $loginStatus = false;
+    // if(isset($_GET['login'])){
+    //     $loginStatus = $_GET['login'];
+    //     $_SESSION['userId']="";
+    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">

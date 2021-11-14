@@ -2,9 +2,9 @@
     require_once('common.php');
     require_once('server/helper/reviewFunctions.php');
 
-    session_start();
-    $_SESSION["listingId"]="";
-    $_SESSION["userId"]="";
+    // session_start();
+    // $_SESSION["listingId"]="";
+    // $_SESSION["userId"]="";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -467,18 +467,19 @@
         }
 
         function getDate(){
-            console.log(bookingStartDate.value);
+            // console.log(bookingStartDate.value);
+            // console.log(listingId);
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     hidden_form.innerHTML = this.responseText;
-                    if(hidden_form.innerText=="Not Available for the given date!"){
-                        document.getElementById("btn-payment").classList.add("btn-secondary");
-                        document.getElementById("btn-payment").classList.remove("btn-primary");
-                    }else{
-                        document.getElementById("btn-payment").classList.remove("btn-secondary");
-                        document.getElementById("btn-payment").classList.add("btn-primary");
-                    }
+                    // if(hidden_form.innerText=="Not Available for the given date!"){
+                    //     document.getElementById("btn-payment").classList.add("btn-secondary");
+                    //     document.getElementById("btn-payment").classList.remove("btn-primary");
+                    // }else{
+                    //     document.getElementById("btn-payment").classList.remove("btn-secondary");
+                    //     document.getElementById("btn-payment").classList.add("btn-primary");
+                    // }
                 }
             };
             xmlhttp.open("GET","./server/helper/getBookingInfo.php?date="+bookingStartDate.value+"&listingId="+listingId,true);

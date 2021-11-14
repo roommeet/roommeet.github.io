@@ -11,7 +11,7 @@
     }
     session_start();
     echo $_SESSION["listingId"];
-    echo $_SESSION["userId"];
+    $_SESSION["userId"]=1;
 
     // $name = $_GET['name'];
     //$listingId = $_GET['listingId'];

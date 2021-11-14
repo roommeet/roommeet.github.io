@@ -119,7 +119,7 @@ insert into review (listingId, userId, reviewScore, dateAttained) values
 
 insert into user (email, name, password) values ("apple2020", "appleTan", "apple123"), ("john2021", "JohnSmith", "john123");
 
-insert into booking (userId, listingId, bookingDate, bookingDetails) values (1, 2, "2021-11-12", "Fully"), (1, 2, "2021-11-15", "halfAm"), (2, 10, "2021-11-12", "halfPm"), (2, 8, "2021-11-12", "Fully");
+insert into booking (userId, listingId, bookingDate, bookingDetails) values (1, 2, "2021-11-12", "Fully"), (1, 1, "2021-11-15", "halfAm"), (2, 10, "2021-11-12", "halfPm"), (2, 8, "2021-11-12", "Fully");
 
 insert into chat (userId, chat_string, time, receiverId) values 
     (1, "can I ask whether the price is negiotiable?", '2021-10-05 15:28:33', 2);
