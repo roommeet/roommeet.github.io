@@ -103,7 +103,7 @@ class ListingDAO {
         $conn = $connMgr->connect();
 
         // STEP 2
-        $sql = "INSERT INTO review
+        $sql = "INSERT INTO listing
                     (
                         name,
                         price,
@@ -146,7 +146,7 @@ class ListingDAO {
         $stmt->bindParam(':bathRooms', $bathRooms, PDO::PARAM_INT);
         $stmt->bindParam(':booked', $booked, PDO::PARAM_STR);
         $stmt->bindParam(':capacity', $capacity, PDO::PARAM_INT);
-        $stmt->bindParam(':region', $region, PDO::PARAM_INT);
+        $stmt->bindParam(':region', $region, PDO::PARAM_STR);
         $stmt->bindParam(':longitude', $longitude, PDO::PARAM_STR);
         $stmt->bindParam(':latitude', $latitude, PDO::PARAM_STR);
 
@@ -257,5 +257,45 @@ class ListingDAO {
     }
     */
 }
+    function clean_data($data){   // sanitizes inputs
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+    if(isset($_POST['name'])){
+        $name_dirty =$_POST['name'];
+        $price_dirty = $_POST['price'];
+        $imageUrl_dirty = $_POST['imageUrl'];
+        $address_dirty =$_POST['address'];
+        $type_dirty = $_POST['type'];
+        $size_dirty = $_POST['size'];
+        $bedrooms_dirty =$_POST['bedrooms'];
+        $bathrooms_dirty = $_POST['bathrooms'];
+        $booked_dirty =$_POST['booked'];
+        $capacity_dirty = $_POST['capacity'];
+        $region_dirty = $_POST['region'];
+        $longitude_dirty = $_POST['longitude'];
+        $latitude_dirty = $_POST['latitude'];
+
+
+        $name = clean_data($name_dirty);
+        $price = clean_data($price_dirty);
+        $imageUrl = clean_data($imageUrl_dirty);
+        $address = clean_data($address_dirty);
+        $type = clean_data($type_dirty);
+        $size = clean_data($size_dirty);
+        $bedrooms = clean_data($bedrooms_dirty);
+        $bathrooms = clean_data($bathrooms_dirty);
+        $booked = clean_data($booked_dirty);
+        $capacity = clean_data($capacity_dirty);
+        $region = clean_data($region_dirty);
+        $longitude = clean_data($longitude_dirty);
+        $latitude = clean_data($latitude_dirty);
+
+        // MYSQL part
+        $ListingDAO = new ListingDAO();
+        $results = $ListingDAO -> addListing($name, $price, $imageUrl, $address, $type, $size, $bedrooms, $bathrooms, $booked, $capacity, $region, $longitude, $latitude);
+    }
 
 ?>

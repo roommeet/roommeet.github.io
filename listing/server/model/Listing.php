@@ -80,13 +80,13 @@ class Listing {
     public function getRegion() {
         return $this->region;
     }
-    
-    public function getLongitude() {
-        return $this->longitude;
-    }
 
     public function getLatitude() {
         return $this->latitude;
+    }
+
+    public function getLongitude() {
+        return $this->longitude;
     }
 }
 
