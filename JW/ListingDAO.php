@@ -35,7 +35,9 @@ class ListingDAO {
                     $row['bathRooms'],
                     $row['booked'],
                     $row['capacity'],
-                    $row['region']
+                    $row['region'],
+                    $row['longitude'],
+                    $row['latitude']
                 );
         }
 
@@ -81,7 +83,9 @@ class ListingDAO {
                     $row['bathRooms'],
                     $row['booked'],
                     $row['capacity'],
-                    $row['region']
+                    $row['region'],
+                    $row['longitude'],
+                    $row['latitude']
                 );
         }
 
