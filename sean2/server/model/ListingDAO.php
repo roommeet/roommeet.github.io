@@ -35,7 +35,9 @@ class ListingDAO {
                     $row['bathRooms'],
                     $row['booked'],
                     $row['capacity'],
-                    $row['region']
+                    $row['region'],
+                    $row['longitude'],
+                    $row['latitude']
                 );
         }
 
@@ -81,7 +83,9 @@ class ListingDAO {
                     $row['bathRooms'],
                     $row['booked'],
                     $row['capacity'],
-                    $row['region']
+                    $row['region'],
+                    $row['longitude'],
+                    $row['latitude']
                 );
         }
 
@@ -91,6 +95,70 @@ class ListingDAO {
 
         // STEP 6
         return $listing_object;
+    }
+
+    public function addListing($name, $price, $imageUrl, $address, $type, $size, $bedRooms, $bathRooms, $booked, $capacity, $region, $longitude, $latitude) {
+        // STEP 1
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        // STEP 2
+        $sql = "INSERT INTO review
+                    (
+                        name,
+                        price,
+                        imageUrl,
+                        address,
+                        type,
+                        size,
+                        bedRooms,
+                        bathRooms,
+                        booked,
+                        capacity,
+                        region,
+                        longitude,
+                        latitude
+                    )
+                VALUES
+                    (
+                        :name,
+                        :price,
+                        :imageUrl,
+                        :address,
+                        :type,
+                        :size,
+                        :bedRooms,
+                        :bathRooms,
+                        :booked, 
+                        :capacity,
+                        :region,
+                        :longitude,
+                        :latitude
+                    )";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':price', $price, PDO::PARAM_INT);
+        $stmt->bindParam(':imageUrl', $imageUrl, PDO::PARAM_STR);
+        $stmt->bindParam(':address', $address, PDO::PARAM_STR);
+        $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+        $stmt->bindParam(':size', $size, PDO::PARAM_INT);
+        $stmt->bindParam(':bedRooms', $bedRooms, PDO::PARAM_INT);
+        $stmt->bindParam(':bathRooms', $bathRooms, PDO::PARAM_INT);
+        $stmt->bindParam(':booked', $booked, PDO::PARAM_STR);
+        $stmt->bindParam(':capacity', $capacity, PDO::PARAM_INT);
+        $stmt->bindParam(':region', $region, PDO::PARAM_INT);
+        $stmt->bindParam(':longitude', $longitude, PDO::PARAM_STR);
+        $stmt->bindParam(':latitude', $latitude, PDO::PARAM_STR);
+
+        //STEP 3
+        $status = $stmt->execute();
+        
+        // STEP 4
+        $stmt = null;
+        $conn = null;
+
+        // STEP 5
+        return $status;
     }
 
     /*

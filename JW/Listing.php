@@ -13,10 +13,8 @@ class Listing {
     private $booked;
     private $capacity;
     private $region;
-    private $longitude;
-    private $latitude;
 
-    public function __construct($id, $name, $price, $imageUrl, $address, $type, $size, $bedRooms, $bathRooms, $booked, $capacity, $region, $longitude, $latitude) {
+    public function __construct($id, $name, $price, $imageUrl, $address, $type, $size, $bedRooms, $bathRooms, $booked, $capacity, $region) {
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;
@@ -29,8 +27,6 @@ class Listing {
         $this->booked = $booked;
         $this->capacity = $capacity;
         $this->region = $region;
-        $this->longitude = $longitude;
-        $this->latitude = $latitude;
     }
 
     public function getID() {
@@ -79,14 +75,6 @@ class Listing {
 
     public function getRegion() {
         return $this->region;
-    }
-    
-    public function getLongitude() {
-        return $this->longitude;
-    }
-
-    public function getLatitude() {
-        return $this->latitude;
     }
 }
 

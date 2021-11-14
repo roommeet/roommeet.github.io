@@ -354,7 +354,7 @@
         </div>
     </div>
 
-    <form action="payment.php" method="get">
+    <form action="payment.php" method="post">
     <div id="hidden-form" class="container bg-light main-content " style="opacity: 0.8">
         <div class="row justify-content-center m-4 p-3">
         
@@ -362,7 +362,7 @@
                 <h3 class="mb-4"><strong>Booking Details</strong></h3>
                 <div class="booking-date m-2">
                     <label for="start">Select date:</label>
-                    <input type="date" id="booking-start" name="booking-start" value="<?php echo date("Y-m-d")?>" min="2021-10-31" max="2021-12-31" onchange="getDate()">
+                    <input type="date" id="booking_start" name="booking_start" value="<?php echo date("Y-m-d")?>" min="2021-10-31" max="2021-12-31" onchange="getDate()">
                 </div>
                 <br>
                 <div class="booking-option m-2">
@@ -435,7 +435,7 @@
 
         var checkoutPrice = "<?php echo $listing_obj->getPrice()?>";   
         var listingId = "<?php echo $listing_obj->getID()?>";  
-        var bookingStartDate = document.getElementById("booking-start");
+        var bookingStartDate = document.getElementById("booking_start");
         
 
         function booking(){

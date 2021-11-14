@@ -73,9 +73,10 @@ app.component('my-login' , {
                 console.log(response.data);
 
                 if (response.data.status) {
-                    let user = { email: response.data.email , username: response.data.name }
+                    let user = { email: response.data.email , username: response.data.name, id:response.data.userid}
                     hiddenId = response.data.userid;
-                    this.$emit('login', user)
+                    this.$emit('login', user);
+                    window.location.href = "home.php?login=true&userId="+response.data.userid;
                 } else {
                     alert("Invalid user ID or password");
                 }

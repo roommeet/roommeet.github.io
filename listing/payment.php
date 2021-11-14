@@ -1,8 +1,19 @@
 <!-- 1 -->
 <?php
-    $date =$_GET['booking-start'];
-    $price = $_GET['pass_price'];
-    $name = 
+    if(isset($_POST['booking_start'])&&isset($_POST['pass_price'])&&isset($_POST['bookingOption'])&&isset($_POST['fname'])&&isset($_POST['lname'])&&isset($_POST['email'])&&isset($_POST['mobile'])){
+      $booking_start =$_POST['booking_start'];
+      $price = $_POST['pass_price'];
+      $bookingOption = $_POST['bookingOption'];
+      $fname = $_POST['fname'];
+      $lname = $_POST['lname'];
+      $email = $_POST['email'];
+      $mobile = $_POST['mobile'];
+    }
+    session_start();
+    echo $_SESSION["listingId"];
+    echo $_SESSION["userId"];
+
+    // $name = $_GET['name'];
     //$listingId = $_GET['listingId'];
 ?>
 <!DOCTYPE html>
@@ -10,7 +21,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="./googlepay.js"></script>
+    <!-- <script src="./googlepay.js"></script> -->
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat:700' rel='stylesheet' type='text/css'>
 <style>
     @import url(//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css);
