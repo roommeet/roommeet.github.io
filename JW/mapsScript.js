@@ -73,6 +73,7 @@ function initMap() {
   var northMarkers = [];
   var westMarkers = [];
   var eastMarkers = [];
+  var centralMarkers = [];
   var allMarkers = [];
 
   // var allLocations = document.getElementsByTagName("input");
@@ -118,6 +119,8 @@ function initMap() {
       southMarkers.push(marker);
     } else if(informations.name == "East"){
       eastMarkers.push(marker);
+    } else if(informations.name == "Central"){
+      centralMarkers.push(marker);
     } else{
       westMarkers.push(marker);
     }
@@ -139,6 +142,9 @@ function initMap() {
   document.getElementById("west").addEventListener("click", function(){
       showMarkers(westMarkers)
     });
+    document.getElementById("central").addEventListener("click", function(){
+        showMarkers(centralMarkers)
+      });
   document.getElementById("all").addEventListener("click", function(){
       showMarkers(allMarkers)
     });

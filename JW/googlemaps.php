@@ -64,6 +64,7 @@
     <button id = "south" type="button" class="btn btn-primary">South</button>
     <button id = "east" type="button" class="btn btn-primary">East</button>
     <button id = "west" type="button" class="btn btn-primary">West</button>
+    <button id = "central" type="button" class="btn btn-primary">Central</button>
     <button id = "all" type="button" class="btn btn-primary">ALL</button>
     <div id="map"></div>
 
